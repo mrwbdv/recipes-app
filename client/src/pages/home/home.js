@@ -1,52 +1,17 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Container,
-  Typography,
-  AppBar,
-  Toolbar,
-  Button,
-  Grid,
-  Grow,
-} from "@material-ui/core/";
 
-const useStyles = makeStyles(() => ({
-  appBar: {
-    borderRadius: 15,
-    margin: "30px 0",
-  },
-  toolBar: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-}));
+import { Container, Grid, Grow } from "@material-ui/core/";
+import { NavBar } from "../../components/navBar";
+import { Recipes } from "../../components/recipes";
 
 export const HomePage = () => {
-  const classes = useStyles();
   return (
     <Container maxWidth="lg">
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Toolbar className={classes.toolBar}>
-          <Typography
-            component="h2"
-            variant="h5"
-            color="inherit"
-            align="left"
-            noWrap
-          >
-            Recipes Web App
-          </Typography>
-          <Button color="primary" variant="contained">
-            Sign up
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <NavBar />
       <Grow in>
-        <Grid container justify="space-between" alignItems="center">
+        <Grid container justify="space-between">
           <Grid item xs={12} sm={7}>
-            Posts
+            <Recipes />
           </Grid>
           <Grid item xs={12} sm={4}>
             Form

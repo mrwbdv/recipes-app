@@ -2,27 +2,28 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+
+import { reducers } from "./redux/reducers";
+
 import { App } from "./app";
 
-import axios from "axios";
-
+const store = createStore(
+  reducers,
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
+);
 const root = document.getElementById("root");
 
-function getResource(config) {
-  const baseURL = "https://jsonplaceholder.typicode.com/";
-  return axios({
-    method: config.method,
-    url: `${baseURL}${config.url}`,
-  }).then((response) => {
-    return response.data;
-  });
-}
-
-console.log(getResource({ method: "get", url: "posts" }));
-
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   root
 );
