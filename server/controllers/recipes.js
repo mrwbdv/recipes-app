@@ -23,7 +23,6 @@ export const createRecipe = async (req, res) => {
 
 export const updateRecipe = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const recipe = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -38,4 +37,15 @@ export const updateRecipe = async (req, res) => {
   );
 
   res.json(updateRecipe);
+};
+
+export const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No recipe with that id");
+
+  await RecipeCard.findByIdAndDelete(id);
+
+  res.json({ message: "Recipe deleted successfully!" });
 };

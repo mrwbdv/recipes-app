@@ -12,11 +12,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 
+import { useDispatch } from "react-redux";
+import { deleteRecipe } from "../../redux/actions";
+
 import useStyles from "./styles";
 
 export const RecipeCard = ({ recipe, setCurrentId }) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -71,7 +74,7 @@ export const RecipeCard = ({ recipe, setCurrentId }) => {
         <Button
           size="small"
           color="primary"
-          onClick={() => console.log("Delete")}
+          onClick={() => dispatch(deleteRecipe(recipe._id))}
         >
           <DeleteIcon fontSize="small" /> Delete
         </Button>

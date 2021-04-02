@@ -5,7 +5,9 @@ export {
   RECIPE_ADDED_FAILURE,
   RECIPE_UPDATED_SUCCESS,
   RECIPE_UPDATED_FAILURE,
+  RECIPE_DELETED_SUCCESS,
   getRecipes,
   createRecipe,
   updateRecipe,
+  deleteRecipe,
 } from "./recipes";

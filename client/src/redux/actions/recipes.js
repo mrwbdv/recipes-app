@@ -7,6 +7,7 @@ export const RECIPE_ADDED_SUCCESS = "RECIPE_ADDED_SUCCESS";
 export const RECIPE_ADDED_FAILURE = "RECIPE_ADDED_FAILURE";
 export const RECIPE_UPDATED_SUCCESS = "RECIPE_UPDATED_SUCCESS";
 export const RECIPE_UPDATED_FAILURE = "RECIPE_UPDATED_FAILURE";
+export const RECIPE_DELETED_SUCCESS = "RECIPE_DELETED_SUCCESS";
 
 export const getRecipes = () => async (dispatch) => {
   try {
@@ -30,6 +31,15 @@ export const updateRecipe = (id, recipe) => async (dispatch) => {
   try {
     const { data } = await api.updateRecipe(id, recipe);
     dispatch({ type: RECIPE_UPDATED_SUCCESS, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const deleteRecipe = (id) => async (dispatch) => {
+  try {
+    await api.deleteRecipe(id);
+    dispatch({ type: RECIPE_DELETED_SUCCESS, payload: id });
   } catch (error) {
     console.log(error.message);
   }

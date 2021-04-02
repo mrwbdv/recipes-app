@@ -2,6 +2,7 @@ import {
   FETCH_RECIPES_SUCCESS,
   RECIPE_ADDED_SUCCESS,
   RECIPE_UPDATED_SUCCESS,
+  RECIPE_DELETED_SUCCESS,
 } from "../actions";
 
 export default (recipes = [], action) => {
@@ -14,6 +15,8 @@ export default (recipes = [], action) => {
       return recipes.map((recipe) =>
         recipe._id === action.payload._id ? action.payload : recipe
       );
+    case RECIPE_DELETED_SUCCESS:
+      return recipes.filter((recipe) => recipe._id !== action.payload);
     default:
       return recipes;
   }

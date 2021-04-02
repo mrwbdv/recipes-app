@@ -6,3 +6,6 @@ export const fetchRecipes = () => axios.get(baseURL);
 export const createRecipe = (newRecipe) => axios.post(baseURL, newRecipe);
 export const updateRecipe = (id, updatedRecipe) =>
   axios.patch(`${baseURL}/${id}`, updatedRecipe);
+export const deleteRecipe = (id) => {
+  axios.delete(`${baseURL}/${id}`);
+};
