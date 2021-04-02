@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Paper, TextField, Typography, Button } from "@material-ui/core";
-import FileBase64  from "react-file-base64";
+import FileBase from "react-file-base64";
 
-import { useDispatch } from "react-redux";
-import { createRecipe } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { createRecipe, updateRecipe } from "../../redux/actions";
 import { useStyles } from "./styles";
 
-export const Form = () => {
+export const Form = ({ currentId, setCurrentId }) => {
   const [recipeData, setRecipeData] = useState({
     creator: "",
     title: "",
@@ -15,18 +15,38 @@ export const Form = () => {
     tags: "",
     selectedFile: "",
   });
+  const recipe = useSelector((state) =>
+    currentId ? state.recipes.find((p) => p._id === currentId) : null
+  );
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (recipe) setRecipeData(recipe);
+  }, [recipe]);
 
   const classes = useStyles();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createRecipe(recipeData));
+    if (currentId === 0) {
+      dispatch(createRecipe(recipeData));
+      clear();
+    } else {
+      dispatch(updateRecipe(currentId, recipeData));
+      clear();
+    }
   };
 
   const clear = () => {
-    console.log("clear");
+    setRecipeData({
+      creator: "",
+      title: "",
+      body: "",
+      tags: "",
+      selectedFile: "",
+    });
+    setCurrentId(0);
   };
 
   return (
@@ -37,7 +57,9 @@ export const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Recipe Card</Typography>
+        <Typography variant="h6">
+          {currentId ? `Updating ${recipe.title}` : `Creating Recipe`} Card
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -81,9 +103,9 @@ export const Form = () => {
           }
         />
         <div className={classes.fileInput}>
-          <FileBase64
+          <FileBase
             type="file"
-            multiple={true}
+            multiple={false}
             onDone={({ base64 }) =>
               setRecipeData({ ...recipeData, selectedFile: base64 })
             }

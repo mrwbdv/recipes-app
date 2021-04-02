@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Container, Grid, Grow } from "@material-ui/core/";
@@ -10,10 +10,11 @@ import { NavBar } from "../../components/navBar";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
+  const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
     dispatch(getRecipes());
-  }, [dispatch]);
+  }, [dispatch, currentId]);
 
   return (
     <Container maxWidth="lg">
@@ -21,10 +22,10 @@ export const HomePage = () => {
       <Grow in>
         <Grid container justify="space-between" spacing={4}>
           <Grid item xs={12} sm={8}>
-            <Recipes />
+            <Recipes setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Form />
+            <Form currentId={currentId} setCurrentId={setCurrentId} />
           </Grid>
         </Grid>
       </Grow>

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const recipeSchema = mongoose.Schema({
   title: String,
-  recipeText: String,
+  body: String,
   creator: String,
   tags: [String],
   selectedFile: String,

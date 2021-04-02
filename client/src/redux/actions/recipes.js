@@ -5,13 +5,15 @@ export const FETCH_RECIPES_SUCCESS = "FETCH_RECIPES_SUCCESS";
 export const FETCH_RECIPES_FAILURE = "FETCH_RECIPES_FAILURE";
 export const RECIPE_ADDED_SUCCESS = "RECIPE_ADDED_SUCCESS";
 export const RECIPE_ADDED_FAILURE = "RECIPE_ADDED_FAILURE";
+export const RECIPE_UPDATED_SUCCESS = "RECIPE_UPDATED_SUCCESS";
+export const RECIPE_UPDATED_FAILURE = "RECIPE_UPDATED_FAILURE";
 
 export const getRecipes = () => async (dispatch) => {
   try {
     const { data } = await api.fetchRecipes();
     dispatch({ type: FETCH_RECIPES_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: FETCH_RECIPES_FAILURE, payload: error });
+    console.log(error.message);
   }
 };
 
@@ -20,6 +22,15 @@ export const createRecipe = (recipe) => async (dispatch) => {
     const { data } = await api.createRecipe(recipe);
     dispatch({ type: RECIPE_ADDED_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: RECIPE_ADDED_FAILURE, payload: error });
+    console.log(error.message);
+  }
+};
+
+export const updateRecipe = (id, recipe) => async (dispatch) => {
+  try {
+    const { data } = await api.updateRecipe(id, recipe);
+    dispatch({ type: RECIPE_UPDATED_SUCCESS, payload: data });
+  } catch (error) {
+    console.log(error.message);
   }
 };

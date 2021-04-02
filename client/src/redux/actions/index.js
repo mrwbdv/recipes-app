@@ -3,6 +3,9 @@ export {
   FETCH_RECIPES_FAILURE,
   RECIPE_ADDED_SUCCESS,
   RECIPE_ADDED_FAILURE,
+  RECIPE_UPDATED_SUCCESS,
+  RECIPE_UPDATED_FAILURE,
   getRecipes,
   createRecipe,
+  updateRecipe,
 } from "./recipes";

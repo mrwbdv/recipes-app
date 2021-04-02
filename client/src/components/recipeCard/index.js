@@ -12,10 +12,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 
-
 import useStyles from "./styles";
 
-export const RecipeCard = ({ recipe }) => {
+export const RecipeCard = ({ recipe, setCurrentId }) => {
   const classes = useStyles();
 
   return (
@@ -38,7 +37,7 @@ export const RecipeCard = ({ recipe }) => {
         <Button
           style={{ color: "white" }}
           size="small"
-          onClick={() => console.log("click")}
+          onClick={() => setCurrentId(recipe._id)}
         >
           <MoreHorizIcon fontSize="default" />
         </Button>
