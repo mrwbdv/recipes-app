@@ -13,7 +13,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 
 import { useDispatch } from "react-redux";
-import { deleteRecipe } from "../../redux/actions";
+import { deleteRecipe, likeRecipe } from "../../redux/actions";
 
 import useStyles from "./styles";
 
@@ -67,9 +67,9 @@ export const RecipeCard = ({ recipe, setCurrentId }) => {
         <Button
           size="small"
           color="primary"
-          onClick={() => console.log("Like")}
+          onClick={() => dispatch(likeRecipe(recipe._id))}
         >
-          <ThumbUpAltIcon fontSize="small" /> Like {recipe.likeCount}{" "}
+          <ThumbUpAltIcon fontSize="small" /> &nbsp; Like &nbsp; {recipe.likeCount}{" "}
         </Button>
         <Button
           size="small"

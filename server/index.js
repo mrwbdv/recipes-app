@@ -1,12 +1,13 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 import recipeRoutes from "./routes/recipes.js";
 
-import { CONNECTION_URL } from "./config.js";
-
 const app = express();
+
+dotenv.config();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
@@ -17,7 +18,7 @@ app.use("/recipes", recipeRoutes);
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -8,19 +8,27 @@ import { Recipes } from "../../components/recipes";
 import { getRecipes } from "../../redux/actions";
 import { NavBar } from "../../components/navBar";
 
+import { useStyles } from "./styles";
+
 export const HomePage = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
     dispatch(getRecipes());
-  }, [dispatch, currentId]);
+  }, [currentId, dispatch]);
 
   return (
     <Container maxWidth="lg">
       <NavBar />
       <Grow in>
-        <Grid container justify="space-between" spacing={4}>
+        <Grid
+          className={classes.mainContainer}
+          container
+          justify="space-between"
+          spacing={4}
+        >
           <Grid item xs={12} sm={8}>
             <Recipes setCurrentId={setCurrentId} />
           </Grid>
