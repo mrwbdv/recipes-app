@@ -18,8 +18,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   toolBar: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     width: "inherit",
+    "& > *": {
+      marginLeft: "20px",
+    },
   },
   userName: {
     display: "flex",
@@ -41,12 +44,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   [theme.breakpoints.up("md")]: {
-    toolBar: {
-      justifyContent: "flex-end",
-      "& > *": {
-        marginLeft: "20px",
-      },
-    },
     userName: {
       fontSize: "16px",
     },

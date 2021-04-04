@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import recipeRoutes from "./routes/recipes.js";
+import userRoutes from "./routes/user.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/", (req,res) => {
 })
 
 app.use("/recipes", recipeRoutes);
+app.use("/user", userRoutes);
 
 mongoose
   .connect(process.env.CONNECTION_URL, {

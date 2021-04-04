@@ -31,7 +31,7 @@ export const RecipeCard = ({ recipe, setCurrentId }) => {
         title={recipe.title}
       />
       <div className={classes.overlay}>
-        <Typography variant="h6">{recipe.creator}</Typography>
+        <Typography variant="h6">{recipe.name}</Typography>
         <Typography variant="body2">
           {moment(recipe.createdAt).fromNow()}
         </Typography>

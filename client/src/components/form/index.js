@@ -14,7 +14,6 @@ export const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
 
   const [recipeData, setRecipeData] = useState({
-    creator: "",
     title: "",
     body: "",
     tags: "",
@@ -25,6 +24,8 @@ export const Form = ({ currentId, setCurrentId }) => {
     currentId ? state.recipes.find((p) => p._id === currentId) : null
   );
 
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   useEffect(() => {
     if (recipe) setRecipeData(recipe);
   }, [recipe]);
@@ -32,17 +33,18 @@ export const Form = ({ currentId, setCurrentId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId === 0) {
-      dispatch(createRecipe(recipeData));
+      dispatch(createRecipe({ ...recipeData, name: user?.result?.name }));
       clear();
     } else {
-      dispatch(updateRecipe(currentId, recipeData));
+      dispatch(
+        updateRecipe(currentId, { ...recipeData, name: user?.result?.name })
+      );
       clear();
     }
   };
 
   const clear = () => {
     setRecipeData({
-      creator: "",
       title: "",
       body: "",
       tags: "",
@@ -51,6 +53,15 @@ export const Form = ({ currentId, setCurrentId }) => {
     setCurrentId(0);
   };
 
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own recipes and like other's recipes.
+        </Typography>
+      </Paper>
+    );
+  }
   return (
     <Paper className={classes.paper}>
       <form
@@ -62,16 +73,7 @@ export const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? `Updating ${recipe.title}` : `Creating Recipe`} Card
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={recipeData.creator}
-          onChange={(e) =>
-            setRecipeData({ ...recipeData, creator: e.target.value })
-          }
-        />
+
         <TextField
           name="title"
           variant="outlined"

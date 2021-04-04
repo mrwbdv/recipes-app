@@ -12,7 +12,11 @@ export const getRecipes = async (req, res) => {
 
 export const createRecipe = async (req, res) => {
   const recipe = req.body;
-  const newRecipe = new RecipeCard(recipe);
+  const newRecipe = new RecipeCard({
+    ...recipe,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
   try {
     await newRecipe.save();
     res.status(201).json(newRecipe);
@@ -53,16 +57,25 @@ export const deleteRecipe = async (req, res) => {
 export const likeRecipe = async (req, res) => {
   const { id } = req.params;
 
+  if (!req.userId) {
+    return res.json({ message: "Unauthenticated" });
+  }
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No recipe with that id");
 
   const recipe = await RecipeCard.findById(id);
 
-  const updatedPost = await RecipeCard.findByIdAndUpdate(
-    id,
-    { likeCount: recipe.likeCount + 1 },
-    { new: true }
-  );
+  const index = recipe.likes.findIndex((id) => id === String(req.userId));
+
+  if (index === -1) {
+    recipe.likes.push(req.userId);
+  } else {
+    recipe.likes = recipe.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await RecipeCard.findByIdAndUpdate(id, recipe, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
