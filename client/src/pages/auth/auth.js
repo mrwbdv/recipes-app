@@ -7,38 +7,59 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
+
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { GoogleLogin } from "react-google-login";
-import { Icon } from "./icon";
 
+import { Input } from "./input";
+import { Icon } from "./icon";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-import { useStyles } from "./styles";
-import { Input } from "./input";
+import { googleLogin, signup, signin } from "../../redux/actions";
 
-import { googleLogin } from "../../redux/actions";
+import { useStyles } from "./styles";
 
 export const AuthPage = () => {
   const classes = useStyles();
+
   const history = useHistory();
-
-  const [isSignup, setIsSignup] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {};
+  const initialFormData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
 
-  const handleChange = () => {};
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const switchMode = () => {
-    setIsSignup(!isSignup);
+    setIsSignUp(!isSignUp);
     setShowPassword(false);
   };
 
@@ -64,11 +85,11 @@ export const AuthPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          Sign {isSignup ? "Up" : "In"}
+          Sign {isSignUp ? "Up" : "In"}
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            {isSignup && (
+            {isSignUp && (
               <>
                 <Input
                   name="firstName"
@@ -100,7 +121,7 @@ export const AuthPage = () => {
               handleChange={handleChange}
               handleShowPassword={handleShowPassword}
             />
-            {isSignup && (
+            {isSignUp && (
               <Input
                 name="confirmPassword"
                 label="Repeat Password"
@@ -117,7 +138,7 @@ export const AuthPage = () => {
             color="primary"
             className={classes.submit}
           >
-            {isSignup ? "Sign Up" : "Sign In"}
+            {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -131,7 +152,7 @@ export const AuthPage = () => {
                 disabled={renderProps.disabled}
                 startIcon={<Icon />}
               >
-                Sign In with Google Account{" "}
+                Sign In with Google Account
               </Button>
             )}
             onSuccess={googleSuccess}
@@ -141,7 +162,7 @@ export const AuthPage = () => {
           <Grid container justify="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
-                {isSignup
+                {isSignUp
                   ? "Already have an account? Sign in"
                   : "Don't have an account? Sign Up"}
               </Button>

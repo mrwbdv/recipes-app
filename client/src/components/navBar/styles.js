@@ -1,6 +1,5 @@
-  
-import { makeStyles } from '@material-ui/core/styles';
-import { deepPurple } from '@material-ui/core/colors';
+import { makeStyles } from "@material-ui/core/styles";
+import { deepPurple } from "@material-ui/core/colors";
 
 export const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -10,21 +9,17 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "10px 50px",
+    padding: "10px 20px",
   },
   heading: {
     color: "rgba(0,183,255, 1)",
     textDecoration: "none",
+    whiteSpace: "nowrap",
   },
-  toolbar: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "400px",
-  },
-  profile: {
+  toolBar: {
     display: "flex",
     justifyContent: "space-between",
-    width: "400px",
+    width: "inherit",
   },
   userName: {
     display: "flex",
@@ -33,5 +28,27 @@ export const useStyles = makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  [theme.breakpoints.down("xs")]: {
+    appBar: {
+      padding: "5px",
+    },
+    heading: {
+      display: "none",
+    },
+    userName: {
+      fontSize: "12px",
+    },
+  },
+  [theme.breakpoints.up("md")]: {
+    toolBar: {
+      justifyContent: "flex-end",
+      "& > *": {
+        marginLeft: "20px",
+      },
+    },
+    userName: {
+      fontSize: "16px",
+    },
   },
 }));

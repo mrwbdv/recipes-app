@@ -4,10 +4,15 @@ import { Paper, TextField, Typography, Button } from "@material-ui/core";
 import FileBase from "react-file-base64";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import { createRecipe, updateRecipe } from "../../redux/actions";
+
 import { useStyles } from "./styles";
 
 export const Form = ({ currentId, setCurrentId }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [recipeData, setRecipeData] = useState({
     creator: "",
     title: "",
@@ -15,17 +20,14 @@ export const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
+
   const recipe = useSelector((state) =>
     currentId ? state.recipes.find((p) => p._id === currentId) : null
   );
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (recipe) setRecipeData(recipe);
   }, [recipe]);
-
-  const classes = useStyles();
 
   const handleSubmit = (e) => {
     e.preventDefault();

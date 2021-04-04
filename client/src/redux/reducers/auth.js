@@ -1,8 +1,13 @@
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from "../actions";
+import {
+  LOGOUT_SUCCESS,
+  SIGNUP_SUCCESS,
+  SIGNIN_SUCCESS,
+} from "../actions";
 
 export default (state = { authData: null }, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case SIGNUP_SUCCESS:
+    case SIGNIN_SUCCESS:
       localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
       return { ...state, authData: action.data };
     case LOGOUT_SUCCESS:
