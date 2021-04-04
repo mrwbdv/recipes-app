@@ -8,7 +8,7 @@
   "author": "Akmaral Serikova <mrwbdv@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

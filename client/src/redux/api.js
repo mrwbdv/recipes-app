@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000/recipes";
+const baseURL = "https://maru-recipes-app.herokuapp.com/recipes";
 
 export const fetchRecipes = () => axios.get(baseURL);
 

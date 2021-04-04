@@ -1,26 +1,62 @@
 import React from "react";
 
-import { Typography, AppBar, Toolbar, Button } from "@material-ui/core/";
+import {
+  Typography,
+  AppBar,
+  Toolbar,
+  Button,
+  Avatar,
+} from "@material-ui/core/";
 
 import { useStyles } from "./styles";
+import { Link } from "react-router-dom";
 
 export const NavBar = () => {
   const classes = useStyles();
+  const user = null;
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
+      <Typography
+        component={Link}
+        to="/"
+        variant="h5"
+        className={classes.heading}
+        align="left"
+        noWrap
+      >
+        Recipes Web App
+      </Typography>
       <Toolbar className={classes.toolBar}>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="left"
-          noWrap
-        >
-          Recipes Web App
-        </Typography>
-        <Button color="primary" variant="contained">
-          Sign up
-        </Button>
+        {user ? (
+          <div className={classes.profile}>
+            <Avatar
+              className={classes.purple}
+              alt={user.result.name}
+              src={user.result.imageURL}
+            >
+              {user.result.name.charAt(0)}
+            </Avatar>
+            <Typography className={classes.userName} variant="h6">
+              {user.result.name}
+            </Typography>
+            <Button
+              className={classes.logout}
+              color="secondary"
+              variant="contained"
+            >
+              Logout
+            </Button>
+          </div>
+        ) : (
+          <Button
+            component={Link}
+            to="/auth"
+            color="primary"
+            variant="contained"
+          >
+            Sign up
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -13,9 +13,13 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-app.use("/recipes", recipeRoutes);
-
 const PORT = process.env.PORT || 5000;
+
+app.get("/", (req,res) => {
+  res.send("Hello to Recipes API");
+})
+
+app.use("/recipes", recipeRoutes);
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
@@ -25,6 +29,6 @@ mongoose
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
   )
-  .catch((error) => console.log(error.message));
+  .catch((error) => console.log(`${error} did not connect`));
 
 mongoose.set("useFindAndModify", false);
