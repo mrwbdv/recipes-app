@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Typography,
@@ -8,12 +8,30 @@ import {
   Avatar,
 } from "@material-ui/core/";
 
+import { useDispatch } from "react-redux";
+import { useLocation, useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 import { Link } from "react-router-dom";
+import { googleLogout } from "../../redux/actions";
 
 export const NavBar = () => {
   const classes = useStyles();
-  const user = null;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const loaction = useLocation();
+
+  useEffect(() => {
+    const token = user?.token;
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [loaction]);
+
+  const logout = () => {
+    dispatch(googleLogout());
+    setUser(null);
+    history.push("/");
+  };
+
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <Typography
@@ -32,7 +50,7 @@ export const NavBar = () => {
             <Avatar
               className={classes.purple}
               alt={user.result.name}
-              src={user.result.imageURL}
+              src={user.result.imageUrl}
             >
               {user.result.name.charAt(0)}
             </Avatar>
@@ -43,6 +61,7 @@ export const NavBar = () => {
               className={classes.logout}
               color="secondary"
               variant="contained"
+              onClick={logout}
             >
               Logout
             </Button>

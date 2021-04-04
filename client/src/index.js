@@ -12,7 +12,10 @@ import { App } from "./app";
 
 const store = createStore(
   reducers,
-  applyMiddleware(thunk)
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 const root = document.getElementById("root");
 
