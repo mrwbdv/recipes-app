@@ -74,8 +74,8 @@ export const AuthPage = () => {
     }
   };
 
-  const googleFailure = () => {
-    console.log("Google Sign In was unsuccessful. Try Again Later");
+  const googleFailure = (error) => {
+    console.log(error.message);
   };
 
   return (

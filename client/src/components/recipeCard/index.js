@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core/";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
@@ -20,6 +21,38 @@ import useStyles from "./styles";
 export const RecipeCard = ({ recipe, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const Likes = () => {
+    if (recipe.likes.length > 0) {
+      return recipe.likes.find(
+        (like) => like == (user?.result?.googleId || user?.result?._id)
+      ) ? (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp;
+          {recipe.likes.length > 2
+            ? `You and ${recipe.likes.length - 1} others`
+            : `${recipe.likes.length} like${
+                recipe.likes.length > 1 ? "s" : ""
+              }`}
+        </>
+      ) : (
+        <>
+          <ThumbUpAltOutlined fontSize="small" />
+          &nbsp;{recipe.likes.length}{" "}
+          {recipe.likes.length === 1 ? "Like" : "Likes"}
+        </>
+      );
+    }
+    return (
+      <>
+        <ThumbUpAltOutlined fontSize="small" />
+        &nbsp;Like
+      </>
+    );
+  };
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -36,15 +69,18 @@ export const RecipeCard = ({ recipe, setCurrentId }) => {
           {moment(recipe.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => setCurrentId(recipe._id)}
-        >
-          <MoreHorizIcon fontSize="default" />
-        </Button>
-      </div>
+      {user?.result?.name === recipe?.name && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => setCurrentId(recipe._id)}
+          >
+            <MoreHorizIcon fontSize="default" />
+          </Button>
+        </div>
+      )}
+
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
           {recipe.tags.map((recipe) => `#${recipe} `)}
@@ -69,15 +105,17 @@ export const RecipeCard = ({ recipe, setCurrentId }) => {
           color="primary"
           onClick={() => dispatch(likeRecipe(recipe._id))}
         >
-          <ThumbUpAltIcon fontSize="small" /> &nbsp; Like &nbsp; {recipe.likeCount}{" "}
+          <Likes />
         </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deleteRecipe(recipe._id))}
-        >
-          <DeleteIcon fontSize="small" /> Delete
-        </Button>
+        {user?.result?.name === recipe?.name && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deleteRecipe(recipe._id))}
+          >
+            <DeleteIcon fontSize="small" /> Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

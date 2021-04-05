@@ -8,7 +8,7 @@
   "author": "Akmaral Serikova <mrwbdv@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
